@@ -26,7 +26,17 @@ public class GameManager : MonoBehaviour
 
     private void LoadGameplay()
     {
-        SceneManager.LoadScene("Gameplay");
+        SceneManager.LoadScene("fase1");
+        SceneManager.LoadScene("GUI", LoadSceneMode.Additive);
+    }
+
+    public void LoadScenes(string sceneName)
+    {
+        if (sceneName != "fase1" && sceneName != "fase2")
+            return;
+
+
+        SceneManager.LoadScene(sceneName);
         SceneManager.LoadScene("GUI", LoadSceneMode.Additive);
     }
 }
