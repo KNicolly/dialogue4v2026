@@ -16,8 +16,8 @@ EditorBuildSettings:
     guid: 66462814f42c8a841b1abfd0022ac0a1
   - enabled: 1
     path: Assets/Scenes/fase2.unity
-    guid: f2fc04201fc5ea14a90f3990840b72ea
-  - enabled: 1
+    guid: a70bd981e8f8cbe448bde3d4fdae1b20
+  - enabled: 0
     path: Assets/Scenes/Gameplay.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
