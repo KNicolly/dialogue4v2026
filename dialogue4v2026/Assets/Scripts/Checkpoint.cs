@@ -1,26 +1,36 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Checkpoint : MonoBehaviour
 {
-    public Transform respawnPoint;
+    private bool ativado = false;
 
-    private bool activated;
-
-    private void Start()
+    private void OnTriggerEnter(Collider other)
     {
-        respawnPoint = this.transform;
-    }
+        if (ativado)
+            return;
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
         if (!other.CompareTag("Player"))
             return;
 
-        if (activated)
-            return;
+        ativado = true;
 
-        activated = true;
+        int faseAtual = 1;
 
-        Debug.Log("Checkpoint ativado!");
+        if (SceneManager.GetActiveScene().name == "fase2")
+        {
+            faseAtual = 2;
+        }
+
+        SaveSystem.Instance.SalvarCheckpoint(
+            faseAtual,
+            transform.position,
+            CoinManager.Instance.currentCoins,
+            CoinManager.Instance.GetCollectedCoins()
+        );
+
+        Debug.Log(
+            "Checkpoint ativado na fase " + faseAtual + "!"
+        );
     }
 }

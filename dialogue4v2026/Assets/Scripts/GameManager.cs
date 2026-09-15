@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,32 +10,79 @@ public class GameManager : MonoBehaviour
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
+            return;
         }
-        else
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
-    private void Start()
-    {
-        LoadGameplay();
-    }
+    // =========================================================
+    // NOVO JOGO
+    // =========================================================
 
-    private void LoadGameplay()
+    public void NovoJogo()
     {
+        Time.timeScale = 1f;
+
         SceneManager.LoadScene("fase1");
         SceneManager.LoadScene("GUI", LoadSceneMode.Additive);
     }
 
-    public void LoadScenes(string sceneName)
+    // =========================================================
+    // INICIAR JOGO CARREGADO
+    // =========================================================
+
+    public void IniciarJogoCarregado()
     {
-        if (sceneName != "fase1" && sceneName != "fase2")
+        Time.timeScale = 1f;
+
+        SaveSystem.Save save =
+            SaveSystem.Instance.GetSave(0);
+
+        if (save == null)
             return;
 
+        if (save.fase == 1)
+        {
+            SceneManager.LoadScene("fase1");
+        }
+        else if (save.fase == 2)
+        {
+            SceneManager.LoadScene("fase2");
+        }
+        else
+        {
+            SceneManager.LoadScene("fase1");
+        }
+
+        SceneManager.LoadScene(
+            "GUI",
+            LoadSceneMode.Additive
+        );
+    }
+
+    // =========================================================
+    // CARREGAR UMA FASE
+    // =========================================================
+
+    public void LoadScenes(string sceneName)
+    {
+        if (sceneName != "fase1" &&
+            sceneName != "fase2")
+        {
+            return;
+        }
+
+        Time.timeScale = 1f;
 
         SceneManager.LoadScene(sceneName);
-        SceneManager.LoadScene("GUI", LoadSceneMode.Additive);
+
+        SceneManager.LoadScene(
+            "GUI",
+            LoadSceneMode.Additive
+        );
     }
 }
+
+
