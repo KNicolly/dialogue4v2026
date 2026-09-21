@@ -25,8 +25,8 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1f;
 
+        // Começa sempre pela fase 1
         SceneManager.LoadScene("fase1");
-        SceneManager.LoadScene("GUI", LoadSceneMode.Additive);
     }
 
     // =========================================================
@@ -37,11 +37,20 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1f;
 
+        if (SaveSystem.Instance == null)
+        {
+            Debug.LogError("SaveSystem não encontrado.");
+            return;
+        }
+
         SaveSystem.Save save =
             SaveSystem.Instance.GetSave(0);
 
         if (save == null)
+        {
+            Debug.LogError("Nenhum save encontrado no Slot 0.");
             return;
+        }
 
         if (save.fase == 1)
         {
@@ -55,11 +64,6 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene("fase1");
         }
-
-        SceneManager.LoadScene(
-            "GUI",
-            LoadSceneMode.Additive
-        );
     }
 
     // =========================================================
@@ -71,18 +75,33 @@ public class GameManager : MonoBehaviour
         if (sceneName != "fase1" &&
             sceneName != "fase2")
         {
+            Debug.LogError(
+                "Cena inválida: " + sceneName
+            );
+
             return;
         }
 
         Time.timeScale = 1f;
 
         SceneManager.LoadScene(sceneName);
+    }
 
-        SceneManager.LoadScene(
-            "GUI",
-            LoadSceneMode.Additive
-        );
+    // =========================================================
+    // CARREGAR GUI
+    // =========================================================
+
+    public void CarregarGUI()
+    {
+        // Verifica se a GUI já está carregada
+        Scene cenaGUI = SceneManager.GetSceneByName("GUI");
+
+        if (!cenaGUI.isLoaded)
+        {
+            SceneManager.LoadScene(
+                "GUI",
+                LoadSceneMode.Additive
+            );
+        }
     }
 }
-
-
